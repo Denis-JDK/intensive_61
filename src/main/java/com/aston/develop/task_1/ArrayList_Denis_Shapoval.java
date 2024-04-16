@@ -63,6 +63,7 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
         if (array.length > INIT_SIZE && size < array.length / CUT_RATE)
             resize(array.length/2); // если элементов в CUT_RATE раз меньше чем
         // длина массива, то уменьшу в два раза
+        return null;
     }
 
     @Override
