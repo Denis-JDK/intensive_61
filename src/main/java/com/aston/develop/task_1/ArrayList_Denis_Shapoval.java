@@ -2,7 +2,6 @@ package com.aston.develop.task_1;
 
 import jdk.internal.util.ArraysSupport;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
