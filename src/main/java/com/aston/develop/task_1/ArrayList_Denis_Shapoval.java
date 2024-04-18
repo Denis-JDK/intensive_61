@@ -2,13 +2,10 @@ package com.aston.develop.task_1;
 
 import jdk.internal.util.ArraysSupport;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 
-
-public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
-    private final int INIT_SIZE = 16;
+public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>, Comparator<ArrayList_Denis_Shapoval>{
     private final int CUT_RATE = 4;
     private Object[] array = new Object[DEFAULT_CAPACITY];
     private int size = 0;
@@ -50,7 +47,10 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
 
     @Override
     public E set(int index, E element) {
-        return null;
+        if(array.length>=index){
+            add(index,element);
+        };
+        return element;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
             array[i] = array[i+1];
         array[size] = null;
         size--;
-        if (array.length > INIT_SIZE && size < array.length / CUT_RATE)
+        if (array.length > DEFAULT_CAPACITY && size < array.length / CUT_RATE)
             resize(array.length/2); // если элементов в CUT_RATE раз меньше чем
         // длина массива, то уменьшу в два раза
         return null;
@@ -67,11 +67,15 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
 
     @Override
     public void clear() {
-
+        final Object[] es = array;
+        for (int to = size, i = size = 0; i < to; i++)
+            es[i] = null;
     }
 
     @Override
     public void quickSort(Comparator<E> comparator) {
+        comparator.compare((E) this, (E) array);
+
 
     }
 
@@ -82,6 +86,7 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
 
     @Override
     public void split(int size) {
+
 
     }
 
@@ -112,5 +117,13 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>{
     }
     private Object[] grow() {
         return grow(size + 1);
+    }
+
+
+    @Override
+    public int compare(ArrayList_Denis_Shapoval o1, ArrayList_Denis_Shapoval o2) {
+        if(o1.size>o2.size) return 1;
+      else if (o1.size<o2.size) return -1;
+        else return 0;
     }
 }
