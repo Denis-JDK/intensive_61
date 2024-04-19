@@ -2,10 +2,13 @@ package com.aston.develop.task_1;
 
 import jdk.internal.util.ArraysSupport;
 
+
 import java.util.*;
 
 
-public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>, Comparator<ArrayList_Denis_Shapoval>{
+
+
+public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E> {
     private final int CUT_RATE = 4;
     private Object[] array = new Object[DEFAULT_CAPACITY];
     private int size = 0;
@@ -73,20 +76,29 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>, Comparator
     }
 
     @Override
-    public void quickSort(Comparator<E> comparator) {
-        comparator.compare((E) this, (E) array);
+    public void quickSort(Comparator comparator) {
 
+        Arrays.sort(array, 0, size, comparator);
+
+        comparator.compare((E) this, (E) array);
+     isSorted();
 
     }
 
     @Override
     public boolean isSorted() {
-        return false;
+        for (int i = 0; i < size - 1; i++) {
+            if (((Comparable) array[i + 1]).compareTo(array[i]) < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public void split(int size) {
-
+        checkIndex(size);
+        array = Arrays.copyOfRange(array, 0, size);
 
     }
 
@@ -102,6 +114,11 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>, Comparator
     }
     private String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+size;
+    }
+    private void checkIndex(int index) {
+        if (index >= array.length || index < 0) {
+            throw new IndexOutOfBoundsException("Illegal index: " + index);
+        }
     }
 
     private Object[] grow(int minCapacity) {
@@ -120,10 +137,54 @@ public class ArrayList_Denis_Shapoval<E> implements IntensiveList<E>, Comparator
     }
 
 
-    @Override
-    public int compare(ArrayList_Denis_Shapoval o1, ArrayList_Denis_Shapoval o2) {
-        if(o1.size>o2.size) return 1;
-      else if (o1.size<o2.size) return -1;
-        else return 0;
+//    @Override
+//    public int compare(ArrayList_Denis_Shapoval o1, ArrayList_Denis_Shapoval o2) {
+//        if(o1.size>o2.size) return 1;
+//      else if (o1.size<o2.size) return -1;
+//        else return 0;
+//    }
+    private void swap(int[] array, int ind1, int ind2) {
+        int tmp = array[ind1];
+        array[ind1] = array[ind2];
+        array[ind2] = tmp;
     }
+
+    private void sort(E[] list, int leftIndex, int rightIndex, Comparator<E> comparator) {
+        if (size == 0 || leftIndex >= rightIndex) {
+            return;
+        }
+        E pivot = list[(leftIndex + rightIndex) / 2];
+        int leftMarkerIndex = leftIndex;
+        int rightMarkerIndex = rightIndex;
+
+
+        while (leftMarkerIndex <= rightMarkerIndex) {
+            while (comparator.compare(list[leftMarkerIndex], pivot) < 0) {
+                leftMarkerIndex++;
+            }
+            while (comparator.compare(list[rightMarkerIndex], pivot) > 0) {
+                rightMarkerIndex--;
+            }
+            if (leftMarkerIndex <= rightMarkerIndex) {
+                E swap = list[leftMarkerIndex];
+                list[leftMarkerIndex] = list[rightMarkerIndex];
+                list[rightMarkerIndex] = swap;
+                leftMarkerIndex++;
+                rightMarkerIndex--;
+            }
+        }
+        if (leftIndex < rightMarkerIndex) {
+            sort(list, leftIndex, rightMarkerIndex, comparator);
+        }
+        if (rightIndex > leftMarkerIndex) {
+            sort(list, leftMarkerIndex, rightIndex, comparator);
+        }
+    }
+
+
+//    @Override
+//    public int compareTo(ArrayList_Denis_Shapoval o) {
+//        int lastCmp = array
+//        return 0;
+//    }
 }

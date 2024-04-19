@@ -33,6 +33,7 @@ public class Aplication {
             System.out.println(list.get(i));
         }
 
+        list.remove(2);
 
 
         System.out.println(list.size());
@@ -42,6 +43,8 @@ public class Aplication {
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
+
+
 
     }
 }
